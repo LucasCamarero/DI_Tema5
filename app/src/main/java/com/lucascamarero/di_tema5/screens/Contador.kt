@@ -42,9 +42,10 @@ fun Contador(userViewModel: UserViewModel) {
 
             HorizontalDivider()
 
+            Spacer(modifier = Modifier.padding(12.dp))
+
             Row (modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
+                .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
                 Column {

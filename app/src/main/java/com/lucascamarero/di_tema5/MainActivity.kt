@@ -35,7 +35,6 @@ import com.lucascamarero.di_tema5.screens.BarraProgreso
 import com.lucascamarero.di_tema5.screens.Carrusel
 import com.lucascamarero.di_tema5.screens.Contador
 import com.lucascamarero.di_tema5.screens.CuadroDialogo
-import com.lucascamarero.di_tema5.screens.Distintivo
 import com.lucascamarero.di_tema5.screens.FormateadorDirecciones
 import com.lucascamarero.di_tema5.screens.Galeria
 import com.lucascamarero.di_tema5.screens.SelectorColores
@@ -119,7 +118,6 @@ fun VentanaPrincipal() {
                     composable("todo1") { TodoList() }
                     composable("selector") { SelectorColores() }
                     composable("todo2") { TodoListOrdenacion() }
-                    composable("distintivo") { Distintivo() }
                     composable("carrusel") { Carrusel() }
                     composable("cuadro") { CuadroDialogo() }
                 }
@@ -210,7 +208,6 @@ fun MenuLateral(navController: NavController, drawerState: DrawerState) {
         DrawerOpcion("Todo List", "todo1", navController, drawerState)
         DrawerOpcion("Todo List Ordenación", "todo2", navController, drawerState)
         DrawerOpcion("Formateador de direcciones", "formateador", navController, drawerState)
-        DrawerOpcion("Distintivo", "distintivo", navController, drawerState)
         DrawerOpcion("Carrusel", "carrusel", navController, drawerState)
         DrawerOpcion("Cuadro de diálogo", "cuadro", navController, drawerState)
     }
