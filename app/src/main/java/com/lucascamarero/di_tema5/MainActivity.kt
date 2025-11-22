@@ -44,6 +44,8 @@ import com.lucascamarero.di_tema5.screens.TodoListOrdenacion
 import com.lucascamarero.di_tema5.ui.theme.DI_Tema5Theme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
@@ -92,7 +94,12 @@ fun VentanaPrincipal() {
         }
     ) {
         Scaffold(
-            topBar = { BarraSuperior(onMenuClick = { scope.launch { drawerState.open() } }) }
+            topBar = {
+                BarraSuperior(
+                    onMenuClick = { scope.launch { drawerState.open() } },
+                    userViewModel = userViewModel
+                )
+            }
         ) { innerPadding ->
             Column(
                 modifier = Modifier
@@ -121,12 +128,12 @@ fun VentanaPrincipal() {
     }
 }
 
-
-// Barra superior
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BarraSuperior(onMenuClick: () -> Unit) {
-
+fun BarraSuperior(
+    onMenuClick: () -> Unit,
+    userViewModel: UserViewModel
+) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -136,11 +143,13 @@ fun BarraSuperior(onMenuClick: () -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 30.dp)
+                    .padding(top = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
+                // Icono del menú desplegable
                 IconButton(onClick = onMenuClick) {
                     Icon(
                         imageVector = Icons.Default.Menu,
@@ -150,10 +159,26 @@ fun BarraSuperior(onMenuClick: () -> Unit) {
                     )
                 }
 
-                Text(
-                    "Contador",
-                    style = MaterialTheme.typography.titleMedium
-                )
+                // DISTINTIVO de pulsaciones sobre un texto
+                BadgedBox(
+                    badge = {
+                        Badge(
+                            modifier = Modifier.size(36.dp),
+                            containerColor = MaterialTheme.colorScheme.error,
+                            contentColor = MaterialTheme.colorScheme.onError
+                        ) {
+                            Text(
+                                text = userViewModel.pulsaciones.toString(),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    }
+                ) {
+                    Text(
+                        "Contador",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
             }
         }
     )
@@ -170,9 +195,11 @@ fun MenuLateral(navController: NavController, drawerState: DrawerState) {
             .padding(horizontal = 20.dp, vertical = 30.dp)
     ) {
 
-        Text("Menú",
+        Text(
+            "Menú",
             color = MaterialTheme.colorScheme.onPrimary,
-            style = MaterialTheme.typography.titleMedium)
+            style = MaterialTheme.typography.titleMedium
+        )
 
         Spacer(modifier = Modifier.padding(20.dp))
 
@@ -209,6 +236,5 @@ fun DrawerOpcion(
             },
         color = MaterialTheme.colorScheme.onPrimary,
         style = MaterialTheme.typography.bodyMedium
-
     )
 }
