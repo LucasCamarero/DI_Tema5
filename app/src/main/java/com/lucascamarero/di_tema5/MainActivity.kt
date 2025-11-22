@@ -49,7 +49,9 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.lucascamarero.di_tema5.viewmodels.UserViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -69,6 +71,7 @@ class MainActivity : ComponentActivity() {
 fun VentanaPrincipal() {
 
     val navController = rememberNavController()
+    val userViewModel: UserViewModel = viewModel()
 
     // Drawer state
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -82,7 +85,7 @@ fun VentanaPrincipal() {
                     .padding(top = 160.dp, bottom = 260.dp)
                     .fillMaxHeight()
                     .width(240.dp)
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
                 MenuLateral(navController = navController, drawerState = drawerState)
             }
@@ -102,7 +105,7 @@ fun VentanaPrincipal() {
                     navController = navController,
                     startDestination = "contador"
                 ) {
-                    composable("contador") { Contador() }
+                    composable("contador") { Contador(userViewModel) }
                     composable("barra") { BarraProgreso() }
                     composable("galeria") { Galeria() }
                     composable("formateador") { FormateadorDirecciones() }
@@ -148,8 +151,8 @@ fun BarraSuperior(onMenuClick: () -> Unit) {
                 }
 
                 Text(
-                    "Tema 5: Componentes",
-                    style = MaterialTheme.typography.titleLarge
+                    "Contador",
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }

@@ -3,14 +3,15 @@ package com.lucascamarero.di_tema5.viewmodels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 
-class UserViewModel {
+class UserViewModel: ViewModel() {
 
     // Estado compartido entre pantallas: pulsaciones del contador
     var pulsaciones by mutableStateOf(0)
         private set
 
-    fun setnum(num: Int) {
-        pulsaciones = num
+    fun setNum(num: Int) {
+        pulsaciones += num
     }
 }
