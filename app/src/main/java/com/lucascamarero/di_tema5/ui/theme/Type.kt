@@ -13,7 +13,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.spacegrotesk_bold)),
         fontWeight = FontWeight.Normal,
         fontSize = 32.sp,
-        lineHeight = 24.sp,
+        lineHeight = 35.sp,
         letterSpacing = 0.5.sp
     ),
 

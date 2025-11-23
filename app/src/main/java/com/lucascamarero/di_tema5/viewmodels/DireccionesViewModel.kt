@@ -33,7 +33,7 @@ class DireccionesViewModel: ViewModel() {
 
         return when (selectedFormat) {
             FormatType.ORIGINAL -> address
-            FormatType.ONE_LINE -> address.replace("," , "-")
+            FormatType.ONE_LINE -> address.replace("," , " -")
             FormatType.MULTILINE -> address.replace(", " , "\n")
         }
     }

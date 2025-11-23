@@ -35,9 +35,20 @@ fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
     ) {
 
         item {
+
+            Text("Formateador de direcciones",
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleLarge)
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            HorizontalDivider()
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             Text(formattedAddress,
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleSmall)
+                style = MaterialTheme.typography.bodyLarge)
 
             Spacer(modifier = Modifier.height(10.dp))
 
