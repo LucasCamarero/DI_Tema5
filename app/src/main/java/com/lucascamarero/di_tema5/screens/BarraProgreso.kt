@@ -15,9 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lucascamarero.di_tema5.viewmodels.ProgresoViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
 
 @Composable
 fun BarraProgreso(progressViewModel: ProgresoViewModel) {

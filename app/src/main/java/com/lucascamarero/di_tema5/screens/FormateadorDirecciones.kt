@@ -14,31 +14,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.lucascamarero.di_tema5.viewmodels.DireccionesViewModel
 
 @Composable
-fun FormateadorDirecciones() {
+fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
 
-    val originalAddress = """
-        1234 Calle Falsa, Piso 5, Ciudad Ejemplo, País Ficticio, 12345
-    """.trimIndent()
-
-    var selectedOption by remember { mutableStateOf("Original") }
-
-    // Formateo según selección:
-    val formattedAddress = when (selectedOption) {
-        "Original" -> originalAddress
-        "Una línea" -> originalAddress.replace(",", " -")
-        "Multilínea" -> originalAddress
-            .replace(",", "\n")
-        else -> originalAddress
-    }
+    val selectedFormat by remember { direccionesViewModel:: selectedFormat}
+    val formattedAddress = direccionesViewModel.getFormattedAddress()
 
     LazyColumn(
         modifier = Modifier
@@ -64,20 +50,20 @@ fun FormateadorDirecciones() {
 
                 RadioOption(
                     label = "Original",
-                    selected = selectedOption == "Original",
-                    onSelect = { selectedOption = it }
+                    selected = selectedFormat == DireccionesViewModel.FormatType.ORIGINAL,
+                    onSelect = { direccionesViewModel.onFormatSelected(DireccionesViewModel.FormatType.ORIGINAL) }
                 )
 
                 RadioOption(
                     label = "Una línea",
-                    selected = selectedOption == "Una línea",
-                    onSelect = { selectedOption = it }
+                    selected = selectedFormat == DireccionesViewModel.FormatType.ONE_LINE,
+                    onSelect = { direccionesViewModel.onFormatSelected(DireccionesViewModel.FormatType.ONE_LINE) }
                 )
 
                 RadioOption(
                     label = "Multilínea",
-                    selected = selectedOption == "Multilínea",
-                    onSelect = { selectedOption = it }
+                    selected = selectedFormat == DireccionesViewModel.FormatType.MULTILINE,
+                    onSelect = { direccionesViewModel.onFormatSelected(DireccionesViewModel.FormatType.MULTILINE) }
                 )
             }
         }
@@ -85,12 +71,15 @@ fun FormateadorDirecciones() {
 }
 
 @Composable
-fun RadioOption(label: String, selected: Boolean, onSelect: (String) -> Unit) {
+fun RadioOption(label: String, selected: Boolean, onSelect: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        RadioButton(selected = selected, onClick = { onSelect(label) })
+        RadioButton(
+            selected = selected,
+            onClick = onSelect
+        )
         Text(label,
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.bodyMedium)
