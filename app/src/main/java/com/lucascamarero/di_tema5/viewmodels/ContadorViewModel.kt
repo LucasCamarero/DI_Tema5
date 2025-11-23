@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class UserViewModel: ViewModel() {
+class ContadorViewModel: ViewModel() {
 
     // Estado compartido entre pantallas: pulsaciones del contador
     var pulsaciones by mutableStateOf(0)

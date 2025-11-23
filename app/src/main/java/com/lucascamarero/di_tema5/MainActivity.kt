@@ -52,7 +52,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.lucascamarero.di_tema5.viewmodels.UserViewModel
+import com.lucascamarero.di_tema5.viewmodels.ContadorViewModel
+import com.lucascamarero.di_tema5.viewmodels.ProgresoViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -72,7 +73,8 @@ class MainActivity : ComponentActivity() {
 fun VentanaPrincipal() {
 
     val navController = rememberNavController()
-    val userViewModel: UserViewModel = viewModel()
+    val contadorViewModel: ContadorViewModel = viewModel()
+    val progresoViewModel: ProgresoViewModel = viewModel()
 
     // Drawer state
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -96,7 +98,7 @@ fun VentanaPrincipal() {
             topBar = {
                 BarraSuperior(
                     onMenuClick = { scope.launch { drawerState.open() } },
-                    userViewModel = userViewModel
+                    contadorViewModel = contadorViewModel
                 )
             }
         ) { innerPadding ->
@@ -111,8 +113,8 @@ fun VentanaPrincipal() {
                     navController = navController,
                     startDestination = "contador"
                 ) {
-                    composable("contador") { Contador(userViewModel) }
-                    composable("barra") { BarraProgreso() }
+                    composable("contador") { Contador(contadorViewModel) }
+                    composable("barra") { BarraProgreso(progresoViewModel) }
                     composable("galeria") { Galeria() }
                     composable("formateador") { FormateadorDirecciones() }
                     composable("todo1") { TodoList() }
@@ -130,7 +132,7 @@ fun VentanaPrincipal() {
 @Composable
 fun BarraSuperior(
     onMenuClick: () -> Unit,
-    userViewModel: UserViewModel
+    contadorViewModel: ContadorViewModel
 ) {
     TopAppBar(
         colors = topAppBarColors(
@@ -166,7 +168,7 @@ fun BarraSuperior(
                             contentColor = MaterialTheme.colorScheme.onError
                         ) {
                             Text(
-                                text = userViewModel.pulsaciones.toString(),
+                                text = contadorViewModel.pulsaciones.toString(),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }

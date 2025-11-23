@@ -4,24 +4,28 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.lucascamarero.di_tema5.viewmodels.ProgresoViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun BarraProgreso() {
+fun BarraProgreso(progressViewModel: ProgresoViewModel) {
 
     var ejecutando by remember { mutableStateOf(false) }
     var progreso by remember { mutableStateOf(0f) }
     val scope = rememberCoroutineScope()
+    val progress: Float by progressViewModel.progress.observeAsState(initial = 0f)
 
     LazyColumn(
         modifier = Modifier
@@ -36,50 +40,35 @@ fun BarraProgreso() {
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleLarge)
 
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             HorizontalDivider()
 
-            Spacer(modifier = Modifier.padding(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+
+            CircularProgressIndicator(
+                progress = {progress}
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            LinearProgressIndicator(
+                progress = {progress}
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             Button(
-                enabled = !ejecutando,
                 onClick = {
-                    progreso = 0f
-                    ejecutando = true
-
-                    scope.launch {
-
-                        // Simulación de una tarea que avanza poco a poco
-                        while (progreso < 1f) {
-                            delay(300)  // tiempo entre cada avance
-                            progreso += 0.1f       // sube el 10% cada vez
-                        }
-
-                        ejecutando = false
-                    }
+                    progressViewModel.startProgress()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text("Iniciar tarea",
+                Text("Iniciar progreso",
                     style = MaterialTheme.typography.bodyMedium)
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            // La barra aparece solo cuando la tarea está en marcha
-            if (ejecutando) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("${(progreso * 100).toInt()}%")
-                    Spacer(modifier = Modifier.height(10.dp))
-                    LinearProgressIndicator(
-                        progress = progreso,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
             }
         }
     }

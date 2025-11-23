@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,10 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.lucascamarero.di_tema5.viewmodels.UserViewModel
+import com.lucascamarero.di_tema5.viewmodels.ContadorViewModel
 
 @Composable
-fun Contador(userViewModel: UserViewModel) {
+fun Contador(contadorViewModel: ContadorViewModel) {
 
     LazyColumn(
         modifier = Modifier
@@ -38,11 +39,11 @@ fun Contador(userViewModel: UserViewModel) {
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleLarge)
 
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             HorizontalDivider()
 
-            Spacer(modifier = Modifier.padding(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Row (modifier = Modifier
                 .fillMaxWidth(),
@@ -50,7 +51,7 @@ fun Contador(userViewModel: UserViewModel) {
             ){
                 Column {
                     IconButton(onClick = {
-                        userViewModel.setNum(-1)
+                        contadorViewModel.setNum(-1)
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -70,7 +71,7 @@ fun Contador(userViewModel: UserViewModel) {
 
                 Column {
                     IconButton(onClick = {
-                        userViewModel.setNum(1)
+                        contadorViewModel.setNum(1)
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropUp,
@@ -86,9 +87,9 @@ fun Contador(userViewModel: UserViewModel) {
                 }
             }
 
-            Spacer(modifier = Modifier.padding(30.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
-            Text("El contador es ${userViewModel.pulsaciones}",
+            Text("El contador es ${contadorViewModel.pulsaciones}",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodyLarge)
         }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
@@ -52,11 +53,11 @@ fun FormateadorDirecciones() {
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleSmall)
 
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             HorizontalDivider()
 
-            Spacer(modifier = Modifier.padding(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Radio Buttons
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
