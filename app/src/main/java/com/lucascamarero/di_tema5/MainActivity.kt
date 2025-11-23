@@ -49,6 +49,8 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -134,6 +136,8 @@ fun BarraSuperior(
     onMenuClick: () -> Unit,
     contadorViewModel: ContadorViewModel
 ) {
+    val count by contadorViewModel.count.observeAsState(0)
+
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -168,7 +172,7 @@ fun BarraSuperior(
                             contentColor = MaterialTheme.colorScheme.onError
                         ) {
                             Text(
-                                text = contadorViewModel.pulsaciones.toString(),
+                                text = count.toString(),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }

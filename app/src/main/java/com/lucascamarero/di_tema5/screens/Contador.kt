@@ -19,6 +19,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,8 @@ import com.lucascamarero.di_tema5.viewmodels.ContadorViewModel
 
 @Composable
 fun Contador(contadorViewModel: ContadorViewModel) {
+
+    val count: Int by contadorViewModel.count.observeAsState(initial = 0)
 
     LazyColumn(
         modifier = Modifier
@@ -51,7 +55,7 @@ fun Contador(contadorViewModel: ContadorViewModel) {
             ){
                 Column {
                     IconButton(onClick = {
-                        contadorViewModel.setNum(-1)
+                        contadorViewModel.downCount()
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -71,7 +75,7 @@ fun Contador(contadorViewModel: ContadorViewModel) {
 
                 Column {
                     IconButton(onClick = {
-                        contadorViewModel.setNum(1)
+                        contadorViewModel.upCount()
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropUp,
@@ -89,7 +93,7 @@ fun Contador(contadorViewModel: ContadorViewModel) {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Text("El contador es ${contadorViewModel.pulsaciones}",
+            Text("El contador es $count",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodyLarge)
         }
