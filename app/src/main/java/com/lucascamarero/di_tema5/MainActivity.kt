@@ -56,6 +56,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.lucascamarero.di_tema5.viewmodels.ContadorViewModel
 import com.lucascamarero.di_tema5.viewmodels.DireccionesViewModel
+import com.lucascamarero.di_tema5.viewmodels.ListaViewModel
 import com.lucascamarero.di_tema5.viewmodels.ProgresoViewModel
 import kotlinx.coroutines.launch
 
@@ -79,6 +80,7 @@ fun VentanaPrincipal() {
     val contadorViewModel: ContadorViewModel = viewModel()
     val progresoViewModel: ProgresoViewModel = viewModel()
     val direccionesViewModel: DireccionesViewModel = viewModel()
+    val listaViewModel: ListaViewModel = viewModel()
 
     // Drawer state
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -121,7 +123,7 @@ fun VentanaPrincipal() {
                     composable("barra") { BarraProgreso(progresoViewModel) }
                     composable("galeria") { Galeria() }
                     composable("formateador") { FormateadorDirecciones(direccionesViewModel) }
-                    composable("todo1") { TodoList() }
+                    composable("todo1") { TodoList(listaViewModel) }
                     composable("selector") { SelectorColores() }
                     composable("todo2") { TodoListOrdenacion() }
                     composable("carrusel") { Carrusel() }
