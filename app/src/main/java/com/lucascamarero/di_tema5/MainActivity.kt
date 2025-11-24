@@ -98,9 +98,9 @@ fun VentanaPrincipal() {
         drawerContent = {
             Box(
                 modifier = Modifier
-                    .padding(top = 190.dp, bottom = 300.dp)
+                    .padding(top = 190.dp, bottom = 310.dp)
                     .fillMaxHeight()
-                    .width(200.dp)
+                    .width(230.dp)
                     .background(MaterialTheme.colorScheme.primary)
             ) {
                 MenuLateral(navController = navController, drawerState = drawerState)
