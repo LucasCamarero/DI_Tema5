@@ -20,10 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lucascamarero.di_tema5.viewmodels.DireccionesViewModel
 
+// Composable que muestra la dirección en distintos formatos y permite seleccionar el formato con RadioButtons
 @Composable
 fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
 
-    val selectedFormat by remember { direccionesViewModel:: selectedFormat}
+    // Observa el formato seleccionado desde el ViewModel (state de Compose)
+    val selectedFormat by remember { direccionesViewModel::selectedFormat }
+
+    // Obtiene la dirección formateada según el formato seleccionado
     val formattedAddress = direccionesViewModel.getFormattedAddress()
 
     LazyColumn(
@@ -35,10 +39,12 @@ fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
     ) {
 
         item {
-
-            Text("Formateador de direcciones",
+            // Título de la sección
+            Text(
+                "Formateador de direcciones",
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleLarge)
+                style = MaterialTheme.typography.titleLarge
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -46,9 +52,12 @@ fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Text(formattedAddress,
+            // Muestra la dirección ya formateada según el formato seleccionado
+            Text(
+                formattedAddress,
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodyLarge)
+                style = MaterialTheme.typography.bodyLarge
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -56,7 +65,7 @@ fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Radio Buttons
+            // Column con RadioButtons para seleccionar el formato
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
                 RadioOption(
@@ -81,18 +90,23 @@ fun FormateadorDirecciones(direccionesViewModel: DireccionesViewModel) {
     }
 }
 
+// Composable que representa una opción de RadioButton con etiqueta
 @Composable
 fun RadioOption(label: String, selected: Boolean, onSelect: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
+        // RadioButton que refleja si está seleccionado y llama a onSelect al hacer clic
         RadioButton(
             selected = selected,
             onClick = onSelect
         )
-        Text(label,
+        // Texto que acompaña al RadioButton
+        Text(
+            label,
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyMedium)
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }

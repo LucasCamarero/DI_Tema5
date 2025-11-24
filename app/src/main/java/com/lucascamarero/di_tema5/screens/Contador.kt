@@ -26,9 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lucascamarero.di_tema5.viewmodels.ContadorViewModel
 
+// Composable que muestra un contador con botones para incrementar y decrementar
 @Composable
 fun Contador(contadorViewModel: ContadorViewModel) {
 
+    // Observa el LiveData del contador desde el ViewModel, valor inicial 0
     val count: Int by contadorViewModel.count.observeAsState(initial = 0)
 
     LazyColumn(
@@ -39,9 +41,13 @@ fun Contador(contadorViewModel: ContadorViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            Text("Contador",
+
+            // Título de la sección
+            Text(
+                "Contador",
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleLarge)
+                style = MaterialTheme.typography.titleLarge
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -49,13 +55,15 @@ fun Contador(contadorViewModel: ContadorViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Row (modifier = Modifier
-                .fillMaxWidth(),
+            // Fila principal con botones de incrementar y decrementar
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
-            ){
+            ) {
+                // Columna para el botón de restar
                 Column {
                     IconButton(onClick = {
-                        contadorViewModel.downCount()
+                        contadorViewModel.downCount() // Llama al ViewModel para decrementar
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -65,17 +73,19 @@ fun Contador(contadorViewModel: ContadorViewModel) {
                         )
                     }
 
-                    Text("Restar",
+                    Text(
+                        "Restar",
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.bodyMedium)
-
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
 
                 Spacer(modifier = Modifier.padding(horizontal = 30.dp))
 
+                // Columna para el botón de sumar
                 Column {
                     IconButton(onClick = {
-                        contadorViewModel.upCount()
+                        contadorViewModel.upCount() // Llama al ViewModel para incrementar
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropUp,
@@ -85,17 +95,22 @@ fun Contador(contadorViewModel: ContadorViewModel) {
                         )
                     }
 
-                    Text("Sumar",
+                    Text(
+                        "Sumar",
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.bodyMedium)
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            Text("El contador es $count",
+            // Muestra el valor actual del contador
+            Text(
+                "El contador es $count",
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.bodyLarge)
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }

@@ -7,17 +7,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+// Declara un ViewModel encargado de gestionar la lista de imágenes de la galería
 class GalleryViewModel : ViewModel() {
 
+    // StateFlow interno que mantiene la lista de elementos de galería
     private val _galleryItems = MutableStateFlow<List<GalleryItem>>(emptyList())
+    // StateFlow público y de solo lectura para exponer la lista
     val galleryItems: StateFlow<List<GalleryItem>> = _galleryItems
 
+    // Al crear el ViewModel, carga datos de ejemplo
     init {
         loadSampleData()
     }
 
+    // Función privada que carga una lista de elementos de ejemplo
     private fun loadSampleData() {
+        // Ejecuta la carga dentro del scope del ViewModel usando corrutinas
         viewModelScope.launch {
+            // Asigna una lista de GalleryItem con fotos de internet
             _galleryItems.value = listOf(
                 GalleryItem(1, "Rojo sobre azul", "https://images.pexels.com/photos/845434/pexels-photo-845434.jpeg"),
                 GalleryItem(2, "Liz", "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"),

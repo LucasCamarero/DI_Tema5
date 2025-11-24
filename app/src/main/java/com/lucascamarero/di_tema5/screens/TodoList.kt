@@ -16,12 +16,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.lucascamarero.di_tema5.viewmodels.ListaViewModel
 import com.lucascamarero.di_tema5.models.TodoItem
 
+// Composable que muestra una lista de tareas con opción de agregar, marcar y eliminar
 @Composable
 fun TodoList(listaViewModel: ListaViewModel) {
 
+    // Estado local para el texto del campo de entrada
     var texto by remember { mutableStateOf("") }
 
-    // Observamos la lista desde el ViewModel
+    // Observamos la lista de items desde el ViewModel
     val lista by listaViewModel.items.observeAsState(emptyList())
 
     LazyColumn(
@@ -31,7 +33,9 @@ fun TodoList(listaViewModel: ListaViewModel) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         item {
+            // Título de la sección
             Text(
                 "Todo List",
                 color = MaterialTheme.colorScheme.primary,
@@ -44,6 +48,7 @@ fun TodoList(listaViewModel: ListaViewModel) {
 
             Spacer(modifier = Modifier.height(18.dp))
 
+            // Fila para el input de texto y botón agregar
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -51,7 +56,7 @@ fun TodoList(listaViewModel: ListaViewModel) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
+                // Campo de texto para ingresar la tarea
                 OutlinedTextField(
                     value = texto,
                     onValueChange = { nuevoTexto -> texto = nuevoTexto },
@@ -66,11 +71,12 @@ fun TodoList(listaViewModel: ListaViewModel) {
 
                 Spacer(modifier = Modifier.width(16.dp))
 
+                // Botón para agregar el item a la lista
                 Button(
                     onClick = {
                         if (texto.isNotBlank()) {
                             listaViewModel.addItem(texto)
-                            texto = ""
+                            texto = "" // Limpiamos el campo
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -85,16 +91,18 @@ fun TodoList(listaViewModel: ListaViewModel) {
             Spacer(modifier = Modifier.height(18.dp))
         }
 
+        // Items de la lista: cada tarea se renderiza con CrearItem
         items(lista) { item ->
             CrearItem(
                 item = item,
-                onToggle = { listaViewModel.toggleChecked(item) },
-                onDelete = { listaViewModel.removeItem(item) }
+                onToggle = { listaViewModel.toggleChecked(item) }, // Cambiar estado checked
+                onDelete = { listaViewModel.removeItem(item) }     // Eliminar si está marcado
             )
         }
     }
 }
 
+// Composable que representa un solo item de la lista con checkbox y botón de eliminar
 @Composable
 fun CrearItem(
     item: TodoItem,
@@ -108,7 +116,7 @@ fun CrearItem(
             .padding(horizontal = 10.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
+        // Checkbox para marcar la tarea como completada
         Checkbox(
             checked = item.checked,
             onCheckedChange = { onToggle() },
@@ -121,6 +129,7 @@ fun CrearItem(
 
         Spacer(modifier = Modifier.width(8.dp))
 
+        // Texto de la tarea con line-through si está completada
         Box(modifier = Modifier.weight(1f)) {
             Text(
                 text = item.texto,
@@ -134,9 +143,10 @@ fun CrearItem(
             )
         }
 
+        // IconButton para eliminar la tarea (solo si está marcada)
         IconButton(
             onClick = {
-                if (item.checked) {   // Solo eliminar si está marcado
+                if (item.checked) {
                     onDelete()
                 }
             }
@@ -144,8 +154,10 @@ fun CrearItem(
             Icon(
                 imageVector = Icons.Filled.Delete,
                 contentDescription = "Eliminar",
-                tint = if (item.checked) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                tint = if (item.checked)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                 modifier = Modifier.size(25.dp)
             )
         }

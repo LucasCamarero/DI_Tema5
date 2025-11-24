@@ -32,14 +32,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.lucascamarero.di_tema5.screens.BarraProgreso
-import com.lucascamarero.di_tema5.screens.Carrusel
 import com.lucascamarero.di_tema5.screens.Contador
 import com.lucascamarero.di_tema5.screens.CuadroDialogo
 import com.lucascamarero.di_tema5.screens.FormateadorDirecciones
 import com.lucascamarero.di_tema5.screens.Galeria
 import com.lucascamarero.di_tema5.screens.SelectorColores
 import com.lucascamarero.di_tema5.screens.TodoList
-import com.lucascamarero.di_tema5.screens.TodoListOrdenacion
 import com.lucascamarero.di_tema5.ui.theme.DI_Tema5Theme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -61,33 +59,39 @@ import com.lucascamarero.di_tema5.viewmodels.ListaViewModel
 import com.lucascamarero.di_tema5.viewmodels.ProgresoViewModel
 import kotlinx.coroutines.launch
 
+// Activity principal que lanza la app y configura Jetpack Compose
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge() // Permite que la app use toda la pantalla (modo edge-to-edge)
         setContent {
-            DI_Tema5Theme {
-                VentanaPrincipal()
+            DI_Tema5Theme { // Aplica el tema de la app
+                VentanaPrincipal() // Composable raíz que contiene toda la UI
             }
         }
     }
 }
 
+// Composable que define la ventana principal con Scaffold, Drawer y navegación
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VentanaPrincipal() {
 
+    // Controlador de navegación para manejar pantallas
     val navController = rememberNavController()
+
+    // Instancia de los ViewModels usados en la app
     val contadorViewModel: ContadorViewModel = viewModel()
     val progresoViewModel: ProgresoViewModel = viewModel()
     val direccionesViewModel: DireccionesViewModel = viewModel()
     val listaViewModel: ListaViewModel = viewModel()
     val galleryViewModel: GalleryViewModel = viewModel()
 
-    // Drawer state
+    // Estado del Drawer y CoroutineScope para controlarlo
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    // Drawer lateral con contenido de navegación
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -102,6 +106,7 @@ fun VentanaPrincipal() {
             }
         }
     ) {
+        // Scaffold con topBar y contenido principal
         Scaffold(
             topBar = {
                 BarraSuperior(
@@ -117,6 +122,7 @@ fun VentanaPrincipal() {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
 
+                // NavHost que gestiona las rutas de la app
                 NavHost(
                     navController = navController,
                     startDestination = "contador"
@@ -127,8 +133,6 @@ fun VentanaPrincipal() {
                     composable("formateador") { FormateadorDirecciones(direccionesViewModel) }
                     composable("todo1") { TodoList(listaViewModel) }
                     composable("selector") { SelectorColores() }
-                    composable("todo2") { TodoListOrdenacion() }
-                    composable("carrusel") { Carrusel() }
                     composable("cuadro") { CuadroDialogo() }
                 }
             }
@@ -136,12 +140,14 @@ fun VentanaPrincipal() {
     }
 }
 
+// TopAppBar personalizada con icono de menú y contador
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarraSuperior(
     onMenuClick: () -> Unit,
     contadorViewModel: ContadorViewModel
 ) {
+    // Observa el LiveData del contador
     val count by contadorViewModel.count.observeAsState(0)
 
     TopAppBar(
@@ -178,7 +184,7 @@ fun BarraSuperior(
                             contentColor = MaterialTheme.colorScheme.onError
                         ) {
                             Text(
-                                text = count.toString(),
+                                text = count.toString(), // Muestra el número de clics
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -194,10 +200,9 @@ fun BarraSuperior(
     )
 }
 
+// Composable que define el menú lateral con opciones de navegación
 @Composable
 fun MenuLateral(navController: NavController, drawerState: DrawerState) {
-
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -213,18 +218,18 @@ fun MenuLateral(navController: NavController, drawerState: DrawerState) {
 
         Spacer(modifier = Modifier.padding(20.dp))
 
+        // Cada opción del drawer navega a una ruta diferente
         DrawerOpcion("Contador", "contador", navController, drawerState)
         DrawerOpcion("Barra de progreso", "barra", navController, drawerState)
         DrawerOpcion("Galería", "galeria", navController, drawerState)
         DrawerOpcion("Selector de colores", "selector", navController, drawerState)
         DrawerOpcion("Todo List", "todo1", navController, drawerState)
-        DrawerOpcion("Todo List Ordenación", "todo2", navController, drawerState)
         DrawerOpcion("Formateador de direcciones", "formateador", navController, drawerState)
-        DrawerOpcion("Carrusel", "carrusel", navController, drawerState)
         DrawerOpcion("Cuadro de diálogo", "cuadro", navController, drawerState)
     }
 }
 
+// Composable individual para cada opción del Drawer
 @Composable
 fun DrawerOpcion(
     nombre: String,
@@ -232,6 +237,7 @@ fun DrawerOpcion(
     navController: NavController,
     drawerState: DrawerState
 ) {
+    // Corrutina para cerrar el Drawer,
     val scope = rememberCoroutineScope()
 
     Text(
@@ -240,8 +246,8 @@ fun DrawerOpcion(
             .padding(vertical = 8.dp)
             .fillMaxWidth()
             .clickable {
-                navController.navigate(ruta)
-                scope.launch { drawerState.close() }
+                navController.navigate(ruta) // Navega a la ruta correspondiente
+                scope.launch { drawerState.close() } // Cierra el Drawer al hacer clic
             },
         color = MaterialTheme.colorScheme.onPrimary,
         style = MaterialTheme.typography.bodyMedium

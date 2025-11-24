@@ -7,23 +7,24 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ProgresoViewModel: ViewModel() {
+// ViewModel que gestiona un progreso animado de manera segura
+class ProgresoViewModel : ViewModel() {
 
-    private val _progress = MutableLiveData<Float>()
+    // LiveData interna que mantiene el valor del progreso (0f a 1f)
+    private val _progress = MutableLiveData(0f)
+    // LiveData pública de solo lectura
     val progress: LiveData<Float> = _progress
 
-    init {
-        _progress.value = 0f
-    }
-
-    // Simulamos el progreso
+    // Función que simula el progreso incrementando su valor poco a poco
     fun startProgress() {
+        // Ejecuta la carga dentro del scope del ViewModel usando corrutinas
         viewModelScope.launch {
-            _progress.value = 0f
+            _progress.value = 0f // Reinicia el progreso
 
-            while (_progress.value !! < 1f) {
-                delay(100)
-                _progress.value = _progress.value!! + 0.01f
+            // Se asegura de no usar null con el operador Elvis (?:)
+            while ((_progress.value ?: 0f) < 1f) {
+                delay(100)  // Espera 100ms entre incrementos
+                _progress.value = (_progress.value ?: 0f) + 0.01f  // Incrementa el progreso en 0.01
             }
         }
     }

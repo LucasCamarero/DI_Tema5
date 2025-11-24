@@ -16,12 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lucascamarero.di_tema5.viewmodels.ProgresoViewModel
 
+// Composable que muestra una barra de progreso circular y lineal con un botón para iniciar la animación
 @Composable
 fun BarraProgreso(progressViewModel: ProgresoViewModel) {
 
-    var ejecutando by remember { mutableStateOf(false) }
-    var progreso by remember { mutableStateOf(0f) }
-    val scope = rememberCoroutineScope()
+    // Observa el LiveData de progreso desde el ViewModel, con valor inicial 0f
     val progress: Float by progressViewModel.progress.observeAsState(initial = 0f)
 
     LazyColumn(
@@ -33,9 +32,12 @@ fun BarraProgreso(progressViewModel: ProgresoViewModel) {
     ) {
         item {
 
-            Text("Barra de Progreso",
+            // Título de la sección
+            Text(
+                "Barra de Progreso",
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleLarge)
+                style = MaterialTheme.typography.titleLarge
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -43,18 +45,21 @@ fun BarraProgreso(progressViewModel: ProgresoViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Indicador de progreso circular que refleja el valor de progress
             CircularProgressIndicator(
                 progress = {progress}
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Indicador de progreso lineal que refleja el valor de progress
             LinearProgressIndicator(
                 progress = {progress}
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Botón que inicia la animación de progreso en el ViewModel
             Button(
                 onClick = {
                     progressViewModel.startProgress()
@@ -64,8 +69,10 @@ fun BarraProgreso(progressViewModel: ProgresoViewModel) {
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text("Iniciar progreso",
-                    style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    "Iniciar progreso",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
     }
