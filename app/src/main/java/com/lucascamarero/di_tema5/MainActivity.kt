@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -97,10 +98,10 @@ fun VentanaPrincipal() {
         drawerContent = {
             Box(
                 modifier = Modifier
-                    .padding(top = 160.dp, bottom = 260.dp)
+                    .padding(top = 190.dp, bottom = 300.dp)
                     .fillMaxHeight()
-                    .width(240.dp)
-                    .background(MaterialTheme.colorScheme.background)
+                    .width(200.dp)
+                    .background(MaterialTheme.colorScheme.primary)
             ) {
                 MenuLateral(navController = navController, drawerState = drawerState)
             }
