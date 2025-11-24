@@ -133,7 +133,7 @@ fun VentanaPrincipal() {
                     composable("formateador") { FormateadorDirecciones(direccionesViewModel) }
                     composable("todo1") { TodoList(listaViewModel) }
                     composable("selector") { SelectorColores() }
-                    composable("cuadro") { CuadroDialogo() }
+                    composable("cuadro") { CuadroDialogo(navController) }
                 }
             }
         }
