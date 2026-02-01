@@ -53,6 +53,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.lucascamarero.di_tema5.screens.Autocompletado
 import com.lucascamarero.di_tema5.viewmodels.ContadorViewModel
 import com.lucascamarero.di_tema5.viewmodels.DireccionesViewModel
 import com.lucascamarero.di_tema5.viewmodels.GalleryViewModel
@@ -98,7 +99,7 @@ fun VentanaPrincipal() {
         drawerContent = {
             Box(
                 modifier = Modifier
-                    .padding(top = 190.dp, bottom = 310.dp)
+                    .padding(top = 190.dp, bottom = 210.dp)
                     .fillMaxHeight()
                     .width(230.dp)
                     .background(MaterialTheme.colorScheme.primary)
@@ -135,6 +136,7 @@ fun VentanaPrincipal() {
                     composable("todo1") { TodoList(listaViewModel) }
                     composable("selector") { SelectorColores() }
                     composable("cuadro") { CuadroDialogo(navController) }
+                    composable("completar") { Autocompletado(navController) }
                 }
             }
         }
@@ -227,6 +229,7 @@ fun MenuLateral(navController: NavController, drawerState: DrawerState) {
         DrawerOpcion("Todo List", "todo1", navController, drawerState)
         DrawerOpcion("Formateador de direcciones", "formateador", navController, drawerState)
         DrawerOpcion("Cuadro de diálogo", "cuadro", navController, drawerState)
+        DrawerOpcion("Search Bar", "completar", navController, drawerState)
     }
 }
 
